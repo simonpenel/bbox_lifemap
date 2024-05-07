@@ -77,6 +77,55 @@ maxzoom = 42
 
 
 
+[[tileset]]
+name = "clade"
+cache = "tilecache"
+tms = "CustomWebMercator"
+[tileset.postgis]
+datasource = "pg"
+extent = [-15.64262, -20.99848, 15.64848, 9.57778]
+
+[[tileset.postgis.layer]]
+name = "clade-layer"
+table_name = "points"
+geometry_field = "way"
+geometry_type = "POINT"
+
+buffer_size = 0
+
+[[tileset.postgis.layer.query]]
+sql = """SELECT 
+way,id,ref,z_order,branch,tip,zoomview,clade,cladecenter,rankname,sci_name,common_name,full_name,rank,name,nbdesc,taxid 
+FROM lines 
+WHERE rankname=True  and zoomview between !zoom!-4 and !zoom!-2 """
+minzoom = 0
+maxzoom = 42
+
+
+
+
+[[tileset]]
+name = "leaves"
+cache = "tilecache"
+tms = "CustomWebMercator"
+[tileset.postgis]
+datasource = "pg"
+extent = [-15.64262, -20.99848, 15.64848, 9.57778]
+
+[[tileset.postgis.layer]]
+name = "leaves-layer"
+table_name = "points"
+geometry_field = "way"
+geometry_type = "POINTS"
+
+buffer_size = 0
+
+[[tileset.postgis.layer.query]]
+sql = """SELECT way,id,ref,z_order,branch,tip,zoomview,clade,cladecenter,rankame,sci_name,common_name,full_name,rank,name,nbdesc,taxid FROM points WHERE  tip=True  AND zoomview between 0 and !zoom!    """
+minzoom = 0
+maxzoom = 42
+
+
 
 [[tileset]]
 name = "polybac"
