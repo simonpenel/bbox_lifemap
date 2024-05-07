@@ -1,0 +1,168 @@
+[[datasource]]
+name = "pg"   
+[datasource.postgis]
+url = "postgresql://lm:gvC5b78Ch9nDePjF@localhost/tree"
+
+[[assets.static]]
+dir = "./assets"
+path = "/assets"
+
+[[tilestore]]
+name = "tilecache"    
+[tilestore.files]
+#base_dir = "../tiles"
+base_dir = "/tmp/mvtbench"
+
+[[tilestore]]
+name = "mbtilecache"
+[tilestore.mbtiles]
+path = "/tmp/tilecache.mbtiles"
+
+[[tilestore]]
+name = "pmtilecache"
+[tilestore.pmtiles]
+path = "/tmp/tilecache.pmtiles"
+
+
+[[grid]]
+json = "assets/CustomWebMercator_42.json"
+
+[[tileset]]
+name = "lines"
+cache = "tilecache"
+tms = "CustomWebMercator"
+[tileset.postgis]
+datasource = "pg"
+extent = [-15.64262, -20.99848, 15.64848, 9.57778]
+
+[[tileset.postgis.layer]]
+name = "lines-layer"
+table_name = "lines"
+geometry_field = "way"
+geometry_type = "LINESTRING"
+buffer_size = 0
+[[tileset.postgis.layer.query]]
+sql = """SELECT
+way,id,ref,z_order,branch,tip,zoomview,clade,cladecenter,rankname,sci_name,common_name,full_name,rank,name,nbdesc,taxid
+FROM lines
+WHERE branch=True   and zoomview between !zoom!-5 and !zoom!+13"""
+minzoom = 0
+maxzoom = 42
+
+
+
+[[tileset]]
+name = "ranks"
+cache = "tilecache"
+tms = "CustomWebMercator"
+[tileset.postgis]
+datasource = "pg"
+extent = [-15.64262, -20.99848, 15.64848, 9.57778]
+
+[[tileset.postgis.layer]]
+name = "ranks-layer"
+table_name = "lines"
+geometry_field = "way"
+geometry_type = "LINESTRING"
+
+buffer_size = 0
+
+[[tileset.postgis.layer.query]]
+sql = """SELECT 
+way,id,ref,z_order,branch,tip,zoomview,clade,cladecenter,rankname,sci_name,common_name,full_name,rank,name,nbdesc,taxid 
+FROM lines 
+WHERE rankname=True  and zoomview between !zoom!-4 and !zoom!-2 """
+minzoom = 0
+maxzoom = 42
+
+
+
+
+[[tileset]]
+name = "polybac"
+cache = "tilecache"
+tms = "CustomWebMercator"
+[tileset.postgis]
+datasource = "pg"
+extent = [-15.64262, -20.99848, 15.64848, 9.57778]
+
+
+[[tileset.postgis.layer]]
+name = "polybac-layer"
+table_name = "polygons"
+geometry_field = "way"
+geometry_type = "POLYGON"
+buffer_size = 100
+[[tileset.postgis.layer.query]]
+sql = """SELECT way,id,ref,z_order,branch,tip,zoomview,clade,cladecenter,rankame,sci_name,common_name,full_name,rank,name,nbdesc,taxid FROM polygons WHERE ref=3 AND zoomview between !zoom!-4 and !zoom! ORDER BY nbdesc DESC """
+minzoom = 0
+maxzoom = 42
+
+
+
+[[tileset]]
+name = "polyeuk"
+cache = "tilecache"
+tms = "CustomWebMercator"
+[tileset.postgis]
+datasource = "pg"
+extent = [-15.64262, -20.99848, 15.64848, 9.57778]
+
+
+[[tileset.postgis.layer]]
+name = "polyeuk-layer"
+table_name = "polygons"
+geometry_field = "way"
+geometry_type = "POLYGON"
+buffer_size = 100
+[[tileset.postgis.layer.query]]
+sql = """SELECT way,id,ref,z_order,branch,tip,zoomview,clade,cladecenter,rankame,sci_name,common_name,full_name,rank,name,nbdesc,taxid FROM polygons WHERE ref=2 AND zoomview between !zoom!-4 and !zoom! ORDER BY nbdesc DESC """
+minzoom = 0
+maxzoom = 42
+
+
+
+[[tileset]]
+name = "polyarc"
+cache = "tilecache"
+tms = "CustomWebMercator"
+[tileset.postgis]
+datasource = "pg"
+extent = [-15.64262, -20.99848, 15.64848, 9.57778]
+
+
+[[tileset.postgis.layer]]
+name = "polyarc-layer"
+table_name = "polygons"
+geometry_field = "way"
+geometry_type = "POLYGON"
+buffer_size = 100
+[[tileset.postgis.layer.query]]
+sql = """SELECT way,id,ref,z_order,branch,tip,zoomview,clade,cladecenter,rankame,sci_name,common_name,full_name,rank,name,nbdesc,taxid FROM polygons WHERE ref=1 AND zoomview between !zoom!-4 and !zoom! ORDER BY nbdesc DESC """
+minzoom = 0
+maxzoom = 42
+
+
+
+
+[[tileset]]
+name = "nodes"
+cache = "tilecache"
+tms = "CustomWebMercator"
+
+[tileset.postgis]
+datasource = "pg"
+extent = [-15.64262, -20.99848, 15.64848, 9.57778]
+
+[[tileset.postgis.layer]]
+name = "nodes-layer"
+table_name = "points"
+geometry_field = "way"
+geometry_type = "POINT"
+buffer_size = 100
+[[tileset.postgis.layer.query]]
+sql = """SELECT way,id,ref,z_order,branch,tip,zoomview,clade,cladecenter,rankame,sci_name,common_name,full_name,rank,name,nbdesc,taxid FROM points WHERE  tip=False AND zoomview between 0 and !zoom!-4  ORDER BY nbdesc DESC """
+minzoom = 0
+maxzoom = 42
+
+
