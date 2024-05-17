@@ -40,7 +40,8 @@ name = "lines-layer"
 table_name = "lines"
 geometry_field = "way"
 geometry_type = "LINESTRING"
-buffer_size = 0
+buffer_size = 1
+query_limit = 100000
 [[tileset.postgis.layer.query]]
 sql = """SELECT
 way,id,ref,z_order,branch,tip,zoomview,clade,cladecenter,rankname,sci_name,common_name,full_name,rank,name,nbdesc,taxid
@@ -64,8 +65,8 @@ name = "ranks-layer"
 table_name = "lines"
 geometry_field = "way"
 geometry_type = "LINESTRING"
-
-buffer_size = 0
+query_limit = 10
+buffer_size = 1
 
 [[tileset.postgis.layer.query]]
 sql = """SELECT 
@@ -90,14 +91,14 @@ name = "clade-layer"
 table_name = "points"
 geometry_field = "way"
 geometry_type = "POINT"
-
-buffer_size = 0
+query_limit = 10
+buffer_size = 1
 
 [[tileset.postgis.layer.query]]
 sql = """SELECT 
 way,id,ref,z_order,branch,tip,zoomview,clade,cladecenter,rankname,sci_name,common_name,full_name,rank,name,nbdesc,taxid 
 FROM lines 
-WHERE rankname=True  and zoomview between !zoom!-4 and !zoom!-2 """
+WHERE rankname=True  and zoomview between !zoom!-1 and !zoom!+1 """
 minzoom = 0
 maxzoom = 42
 
@@ -118,7 +119,7 @@ table_name = "points"
 geometry_field = "way"
 geometry_type = "POINTS"
 
-buffer_size = 0
+buffer_size = 1
 
 [[tileset.postgis.layer.query]]
 sql = """SELECT way,id,ref,z_order,branch,tip,zoomview,clade,cladecenter,rankame,sci_name,common_name,full_name,rank,name,nbdesc,taxid FROM points WHERE  tip=True  AND zoomview between 0 and !zoom!    """
@@ -141,7 +142,9 @@ name = "polybac-layer"
 table_name = "polygons"
 geometry_field = "way"
 geometry_type = "POLYGON"
-buffer_size = 100
+buffer_size = 10
+query_limit = 10
+simplify = false 
 [[tileset.postgis.layer.query]]
 sql = """SELECT way,id,ref,z_order,branch,tip,zoomview,clade,cladecenter,rankame,sci_name,common_name,full_name,rank,name,nbdesc,taxid FROM polygons WHERE ref=3 AND zoomview between !zoom!-4 and !zoom! ORDER BY nbdesc DESC """
 minzoom = 0
@@ -163,7 +166,9 @@ name = "polyeuk-layer"
 table_name = "polygons"
 geometry_field = "way"
 geometry_type = "POLYGON"
-buffer_size = 100
+buffer_size = 10
+query_limit = 10
+simplify = false 
 [[tileset.postgis.layer.query]]
 sql = """SELECT way,id,ref,z_order,branch,tip,zoomview,clade,cladecenter,rankame,sci_name,common_name,full_name,rank,name,nbdesc,taxid FROM polygons WHERE ref=2 AND zoomview between !zoom!-4 and !zoom! ORDER BY nbdesc DESC """
 minzoom = 0
@@ -185,7 +190,9 @@ name = "polyarc-layer"
 table_name = "polygons"
 geometry_field = "way"
 geometry_type = "POLYGON"
-buffer_size = 100
+buffer_size = 10
+query_limit = 10
+simplify = false
 [[tileset.postgis.layer.query]]
 sql = """SELECT way,id,ref,z_order,branch,tip,zoomview,clade,cladecenter,rankame,sci_name,common_name,full_name,rank,name,nbdesc,taxid FROM polygons WHERE ref=1 AND zoomview between !zoom!-4 and !zoom! ORDER BY nbdesc DESC """
 minzoom = 0
@@ -208,7 +215,7 @@ name = "nodes-layer"
 table_name = "points"
 geometry_field = "way"
 geometry_type = "POINT"
-buffer_size = 100
+buffer_size = 1
 [[tileset.postgis.layer.query]]
 sql = """SELECT way,id,ref,z_order,branch,tip,zoomview,clade,cladecenter,rankame,sci_name,common_name,full_name,rank,name,nbdesc,taxid FROM points WHERE  tip=False AND zoomview between 0 and !zoom!-4  ORDER BY nbdesc DESC """
 minzoom = 0
